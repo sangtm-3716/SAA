@@ -1,0 +1,23 @@
+{
+  "common": {
+    "footer": "Bản quyền thuộc về Sun* © 2025",
+    "localeShort": {
+      "vi": "VN",
+      "en": "EN"
+    }
+  },
+  "login": {
+    "metaTitle": "Đăng nhập",
+    "heroTitle": "ROOT FURTHER",
+    "heroSubtitle": "Bắt đầu hành trình của bạn cùng SAA 2025.",
+    "heroTagline": "Đăng nhập để khám phá!",
+    "googleButton": "LOGIN With Google",
+    "spinnerLabel": "Đang đăng nhập",
+    "error": "Đăng nhập không thành công. Vui lòng thử lại."
+  },
+  "todo": {
+    "title": "Việc cần làm",
+    "signedInAs": "Đã đăng nhập với",
+    "signOut": "Đăng xuất"
+  }
+}

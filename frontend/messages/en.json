@@ -1,0 +1,23 @@
+{
+  "common": {
+    "footer": "Copyright belongs to Sun* © 2025",
+    "localeShort": {
+      "vi": "VN",
+      "en": "EN"
+    }
+  },
+  "login": {
+    "metaTitle": "Sign in",
+    "heroTitle": "ROOT FURTHER",
+    "heroSubtitle": "Start your journey with SAA 2025.",
+    "heroTagline": "Sign in to explore!",
+    "googleButton": "LOGIN With Google",
+    "spinnerLabel": "Signing in",
+    "error": "Sign-in failed. Please try again."
+  },
+  "todo": {
+    "title": "Todo",
+    "signedInAs": "Signed in as",
+    "signOut": "Sign out"
+  }
+}
