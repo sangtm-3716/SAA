@@ -20,6 +20,18 @@
     "signedInAs": "Signed in as",
     "signOut": "Sign out"
   },
+  "awards": {
+    "metaTitle": "Award system",
+    "heroSubtitle": "Sun* Annual Awards 2025",
+    "heroTitle": "The SAA 2025 Award System",
+    "quantityLabel": "Number of awards:",
+    "prizeLabel": "Prize value:",
+    "or": "Or",
+    "kudosEyebrow": "Recognition programme",
+    "kudosTitle": "Sun* Kudos",
+    "kudosCta": "Details",
+    "footerCriteria": "General criteria"
+  },
   "countdown": {
     "metaTitle": "Countdown",
     "title": "Event starts in",

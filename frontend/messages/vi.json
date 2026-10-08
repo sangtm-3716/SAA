@@ -20,6 +20,18 @@
     "signedInAs": "Đã đăng nhập với",
     "signOut": "Đăng xuất"
   },
+  "awards": {
+    "metaTitle": "Hệ thống giải thưởng",
+    "heroSubtitle": "Sun* Annual Awards 2025",
+    "heroTitle": "Hệ thống giải thưởng SAA 2025",
+    "quantityLabel": "Số lượng giải thưởng:",
+    "prizeLabel": "Giá trị giải thưởng:",
+    "or": "Hoặc",
+    "kudosEyebrow": "Phong trào ghi nhận",
+    "kudosTitle": "Sun* Kudos",
+    "kudosCta": "Chi tiết",
+    "footerCriteria": "Tiêu chuẩn chung"
+  },
   "countdown": {
     "metaTitle": "Đếm ngược",
     "title": "Sự kiện sẽ bắt đầu sau",
