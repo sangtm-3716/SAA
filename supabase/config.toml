@@ -110,7 +110,8 @@ file_size_limit = "50MiB"
 public = false
 file_size_limit = "50MiB"
 allowed_mime_types = ["image/png", "image/jpeg"]
-objects_path = "./images"
+# objects_path = "./images"  # disabled: the dir is absent in a fresh clone and
+# `supabase start` hard-fails on it; a .gitkeep also fails the png/jpeg mime filter.
 
 # Allow connections via S3 compatible clients
 [storage.s3_protocol]
