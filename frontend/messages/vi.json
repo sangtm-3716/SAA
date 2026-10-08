@@ -19,5 +19,12 @@
     "title": "Việc cần làm",
     "signedInAs": "Đã đăng nhập với",
     "signOut": "Đăng xuất"
+  },
+  "countdown": {
+    "metaTitle": "Đếm ngược",
+    "title": "Sự kiện sẽ bắt đầu sau",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MINUTES"
   }
 }

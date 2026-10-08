@@ -19,5 +19,12 @@
     "title": "Todo",
     "signedInAs": "Signed in as",
     "signOut": "Sign out"
+  },
+  "countdown": {
+    "metaTitle": "Countdown",
+    "title": "Event starts in",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MINUTES"
   }
 }
