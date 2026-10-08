@@ -46,3 +46,6 @@ test-results/
 playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Secondary dev-server build dir used by the locked E2E project
+.next-locked
