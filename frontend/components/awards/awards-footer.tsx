@@ -21,7 +21,8 @@ export function AwardsFooter({
   activeHref?: string;
 }) {
   const links = [
-    { href: "/about", label: "About SAA 2025" },
+    // "/" — the SAA homepage is the About SAA 2025 page; see site-header.tsx.
+    { href: "/", label: "About SAA 2025" },
     { href: "/awards", label: "Award Information" },
     { href: "/kudos", label: "Sun* Kudos" },
     { href: "/criteria", label: criteriaLabel },

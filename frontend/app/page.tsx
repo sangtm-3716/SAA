@@ -1,69 +1,128 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { getLocale, getTranslations } from "next-intl/server";
+import { normalizeLocale } from "@/i18n/locale";
+import { montserrat } from "@/lib/fonts";
+import { SiteHeader } from "@/components/awards/site-header";
+import { KudosBlock } from "@/components/awards/kudos-block";
+import { AwardsFooter } from "@/components/awards/awards-footer";
+import { HomeBackground } from "@/components/home/home-background";
+import { HomeHero } from "@/components/home/home-hero";
+import { HeroCountdown } from "@/components/home/hero-countdown";
+import { HeroCountdownSlot } from "@/components/home/hero-countdown-slot";
+import { RootFurtherIntro } from "@/components/home/root-further-intro";
+import { AwardSystem } from "@/components/home/award-system";
+import { FloatingWidget } from "@/components/home/floating-widget";
 
-export default function Home() {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("home");
+  return { title: `SAA 2025 – ${t("metaTitle")}` };
+}
+
+const PAGE_HREF = "/";
+
+// mm:2167:9026 (Homepage SAA) — https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/i87tDx10uM
+export default async function HomePage() {
+  const [t, tAwards, tCommon, tCountdown, locale] = await Promise.all([
+    getTranslations("home"),
+    getTranslations("awards"),
+    getTranslations("common"),
+    getTranslations("countdown"),
+    getLocale(),
+  ]);
+
+  // The unit captions are the same three words the /countdown screen uses,
+  // so they are read from that namespace rather than duplicated.
+  const unitLabels = {
+    days: tCountdown("days"),
+    hours: tCountdown("hours"),
+    minutes: tCountdown("minutes"),
+  };
+
+  const countdownLabel = t("countdownLabel");
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div
+      data-testid="home-page"
+      className={`${montserrat.className} relative flex min-h-screen flex-col overflow-x-hidden bg-[#00101A]`}
+    >
+      {/* mm:2167:9027 + mm:2167:9029 (Keyvisual + Cover) */}
+      <HomeBackground />
+
+      <SiteHeader locale={normalizeLocale(locale)} activeHref={PAGE_HREF} />
+
+      {/* mm:2167:9030 (Bìa) — column, 120px gap, 96px vertical padding */}
+      <main className="relative z-10 flex w-full flex-col items-center gap-20 py-16 lg:gap-[120px] lg:py-24">
+        {/* mm:2167:9031 (Frame 487) */}
+        <HomeHero
+          countdown={
+            // Only the countdown reads request-time data; everything else on
+            // this page prerenders. The fallback is the same markup showing
+            // zeros, so the hero does not reflow when the real value streams
+            // in. See `HeroCountdownSlot`.
+            <Suspense
+              fallback={
+                <HeroCountdown
+                  countdownLabel={countdownLabel}
+                  days="00"
+                  hours="00"
+                  minutes="00"
+                  unitLabels={unitLabels}
+                />
+              }
+            >
+              <HeroCountdownSlot
+                countdownLabel={countdownLabel}
+                unitLabels={unitLabels}
+              />
+            </Suspense>
+          }
+          eventDateLabel={t("eventDateLabel")}
+          eventDate={t("eventDate")}
+          eventVenueLabel={t("eventVenueLabel")}
+          eventVenue={t("eventVenue")}
+          livestreamNote={t("livestreamNote")}
+          aboutAwardsLabel={t("aboutAwards")}
+          aboutAwardsHref="/awards"
+          aboutKudosLabel={t("aboutKudos")}
+          aboutKudosHref="/kudos"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* mm:3204:10152 (Frame 486) */}
+        <RootFurtherIntro />
+
+        {/* mm:2167:9068 (Hệ thống giải thưởng) */}
+        <AwardSystem
+          eyebrow={t("awardsEyebrow")}
+          heading={t("awardsHeading")}
+          detailLabel={t("detailLabel")}
+        />
+
+        {/* mm:3390:10349 (mms_D1_Sunkudos) — the same block the /awards
+            screen renders, reused rather than re-cut from Figma. */}
+        <div className="w-full px-4 sm:px-6 md:px-9 lg:px-12 xl:px-36">
+          <KudosBlock
+            eyebrow={tAwards("kudosEyebrow")}
+            title={tAwards("kudosTitle")}
+            ctaLabel={tAwards("kudosCta")}
+            ctaHref="/kudos"
+          />
         </div>
       </main>
+
+      {/* mm:5022:15169 (mms_6_Widget Button) — fixed to the viewport, so it
+          sits outside <main>'s flow. */}
+      <FloatingWidget
+        writeKudosLabel={t("writeKudos")}
+        rulesLabel={t("awardRules")}
+      />
+
+      {/* mm:5001:14800 (mms_7_Footer) */}
+      <AwardsFooter
+        criteriaLabel={tAwards("footerCriteria")}
+        copyright={tCommon("footer")}
+        activeHref={PAGE_HREF}
+      />
     </div>
   );
 }

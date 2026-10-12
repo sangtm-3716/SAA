@@ -1,8 +1,12 @@
 import { Montserrat } from "next/font/google";
 
 /**
- * The SAA 2025 screens are set in Montserrat throughout (Figma uses weight
- * 700 for nearly every text node, 400/600 only inside raster assets).
+ * The SAA 2025 screens are set in Montserrat throughout. The /awards screen
+ * is weight 700 almost everywhere, but the Homepage SAA award grid
+ * (mm:5005:14974) sets its tile titles and descriptions at 400 and the
+ * "Chi tiết" link at 500. All three weights are requested here — loading
+ * only 700 would leave the browser synthesising the lighter ones, which
+ * renders visibly heavier and smudgier than the design.
  *
  * Two families appear in the Figma file that are deliberately NOT loaded:
  *
@@ -18,7 +22,7 @@ import { Montserrat } from "next/font/google";
  */
 export const montserrat = Montserrat({
   subsets: ["vietnamese", "latin"],
-  weight: ["700"],
+  weight: ["400", "500", "700"],
   variable: "--font-montserrat",
   display: "swap",
 });

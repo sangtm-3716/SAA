@@ -32,6 +32,22 @@
     "kudosCta": "Details",
     "footerCriteria": "General criteria"
   },
+  "home": {
+    "metaTitle": "Home",
+    "countdownLabel": "Coming soon",
+    "eventDateLabel": "Date:",
+    "eventDate": "26/12/2025",
+    "eventVenueLabel": "Venue:",
+    "eventVenue": "Âu Cơ Art Center",
+    "livestreamNote": "Broadcast live via Livestream",
+    "aboutAwards": "ABOUT AWARDS",
+    "aboutKudos": "ABOUT KUDOS",
+    "awardsEyebrow": "Sun* annual awards 2025",
+    "awardsHeading": "The award system",
+    "detailLabel": "Details",
+    "writeKudos": "Write Kudos",
+    "awardRules": "SAA rules"
+  },
   "countdown": {
     "metaTitle": "Countdown",
     "title": "Event starts in",

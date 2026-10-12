@@ -18,7 +18,10 @@ import { MaskedIcon } from "./masked-icon";
  */
 const NAV_LINKS = [
   // mm:I313:8440;186:1579 — 16px/24px, letter-spacing .15px
-  { href: "/about", label: "About SAA 2025", small: false },
+  // Targets "/" rather than a separate /about route: the SAA homepage
+  // (mm screen i87tDx10uM, "Homepage SAA") IS the About SAA 2025 page, and
+  // it renders this link in the design's selected state.
+  { href: "/", label: "About SAA 2025", small: false },
   // mm:I313:8440;186:1587 — active: gold + 1px bottom rule + glow
   { href: "/awards", label: "Award Information", small: false },
   // mm:I313:8440;186:1593 — 14px/20px, letter-spacing .1px

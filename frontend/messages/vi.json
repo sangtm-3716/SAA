@@ -32,6 +32,22 @@
     "kudosCta": "Chi tiết",
     "footerCriteria": "Tiêu chuẩn chung"
   },
+  "home": {
+    "metaTitle": "Trang chủ",
+    "countdownLabel": "Comming soon",
+    "eventDateLabel": "Thời gian:",
+    "eventDate": "26/12/2025",
+    "eventVenueLabel": "Địa điểm:",
+    "eventVenue": "Âu Cơ Art Center",
+    "livestreamNote": "Tường thuật trực tiếp qua sóng Livestream",
+    "aboutAwards": "ABOUT AWARDS",
+    "aboutKudos": "ABOUT KUDOS",
+    "awardsEyebrow": "Sun* annual awards 2025",
+    "awardsHeading": "Hệ thống giải thưởng",
+    "detailLabel": "Chi tiết",
+    "writeKudos": "Viết Kudos",
+    "awardRules": "Thể lệ SAA"
+  },
   "countdown": {
     "metaTitle": "Đếm ngược",
     "title": "Sự kiện sẽ bắt đầu sau",
