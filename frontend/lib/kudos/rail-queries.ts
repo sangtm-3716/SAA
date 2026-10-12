@@ -34,10 +34,10 @@ export async function getBoardStats(): Promise<BoardStats> {
         .from("kudos_posts")
         .select("id", { count: "exact", head: true })
         .eq("recipient_id", sunnerId),
-      supabase
-        .from("kudos_posts")
-        .select("id", { count: "exact", head: true })
-        .eq("sender_id", sunnerId),
+      // `sender_id` is no longer SELECT-granted on `kudos_posts` (the column
+      // now backs the anonymous-sender masking), so the sent count has to go
+      // through this security-definer RPC instead of a direct predicate.
+      supabase.rpc("kudos_sent_count", { p_sunner_id: sunnerId }),
       supabase
         .from("secret_boxes")
         .select("id", { count: "exact", head: true })
@@ -62,7 +62,7 @@ export async function getBoardStats(): Promise<BoardStats> {
 
     return {
       received: received.count ?? 0,
-      sent: sent.count ?? 0,
+      sent: typeof sent.data === "number" ? sent.data : 0,
       hearts: heartTotal,
       secretBoxesOpened: opened.count ?? 0,
       secretBoxesUnopened: unopened.count ?? 0,

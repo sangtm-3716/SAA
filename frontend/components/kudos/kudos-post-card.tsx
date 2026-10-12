@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MaskedIcon } from "@/components/awards/masked-icon";
 import type { KudosPost } from "@/lib/kudos/types";
 import { SunnerChip } from "./sunner-chip";
+import { MessageText } from "./message-text";
+import { HeartButton } from "./heart-button";
 
 /**
  * mm:I3127:21871;256:5229 — formats `createdAt` as `HH:mm - MM/DD/YYYY`
@@ -34,10 +36,16 @@ export function KudosPostCard({
   post,
   copyLinkLabel,
   copiedLabel,
+  anonymousLabel,
+  heartLabels,
 }: {
   post: KudosPost;
   copyLinkLabel: string;
   copiedLabel: string;
+  /** mm:I3127:21871;256:5175 — accessible names for the heart's two states. */
+  heartLabels: { like: string; unlike: string };
+  /** mm:…;256:4735 fallback name shown when `post.sender` is masked anonymous. */
+  anonymousLabel: string;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -56,12 +64,12 @@ export function KudosPostCard({
     >
       {/* mm:I3127:21871;256:4857 (Info user) */}
       <div className="flex w-full flex-row flex-wrap items-start justify-between gap-6">
-        <SunnerChip sunner={post.sender} />
+        <SunnerChip sunner={post.sender} anonymousLabel={anonymousLabel} />
         {/* mm:I3127:21871;256:5161 (C.3.2_Icon sent) */}
         <div className="flex shrink-0 items-start py-4">
           <MaskedIcon src="/kudos/icon-send.svg" size={32} className="text-[#00101A]" />
         </div>
-        <SunnerChip sunner={post.recipient} />
+        <SunnerChip sunner={post.recipient} anonymousLabel={anonymousLabel} />
       </div>
 
       {/* mm:I3127:21871;256:5192 (Rectangle 14) */}
@@ -89,7 +97,10 @@ export function KudosPostCard({
         {/* mm:I3127:21871;662:11382 (message panel) */}
         <div className="w-full rounded-xl border border-[#FFEA9E] bg-[rgba(255,234,158,0.40)] px-6 py-4">
           {/* mm:I3127:21871;256:5156 */}
-          <p className="text-xl leading-8 font-bold text-justify text-[#00101A]">{post.message}</p>
+          <MessageText
+            text={post.message}
+            className="text-xl leading-8 font-bold text-justify text-[#00101A]"
+          />
         </div>
 
         {post.imageUrls.length > 0 ? (
@@ -101,6 +112,7 @@ export function KudosPostCard({
                 className="flex size-[88px] shrink-0 items-center justify-center rounded-[18px] border border-[#998C5F] bg-white"
               >
                 {/* mm:I3127:21871;256:5177;513:8436 (MM_MEDIA_Sample Image) */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- remote attachment, no responsive variants */}
                 <img src={url} alt="" className="size-[88px] rounded border border-[#FFEA9E] object-cover" />
               </div>
             ))}
@@ -121,14 +133,13 @@ export function KudosPostCard({
       {/* mm:I3127:21871;256:5194 (C.4_Button) */}
       <div className="flex w-full flex-row items-center justify-between">
         {/* mm:I3127:21871;256:5175 (C.4.1_Hearts) */}
-        <div className="flex items-center gap-1">
-          {/* mm:I3127:21871;256:5174 */}
-          <span className="text-2xl leading-8 font-bold text-[#00101A]">
-            {formatHeartCount(post.hearts)}
-          </span>
-          {/* mm:I3127:21871;256:5171 (MM_MEDIA_Heart) */}
-          <MaskedIcon src="/kudos/icon-heart.svg" size={32} className="text-[#D4271D]" />
-        </div>
+        <HeartButton
+          postId={post.id}
+          hearts={post.hearts}
+          heartedByMe={post.heartedByMe}
+          formatCount={formatHeartCount}
+          labels={heartLabels}
+        />
 
         {/* mm:I3127:21871;256:5216 (C.4.2_Copy link button) */}
         <button

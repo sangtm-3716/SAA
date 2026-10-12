@@ -17,7 +17,16 @@ export function KudosFeed({
   emptyLabel,
 }: {
   posts: KudosPost[];
-  labels: { eyebrow: string; heading: string; copyLinkLabel: string; copiedLabel: string };
+  labels: {
+    eyebrow: string;
+    heading: string;
+    copyLinkLabel: string;
+    copiedLabel: string;
+    anonymousLabel: string;
+  /** mm:…;256:5175 — accessible names for the heart's two states. */
+    likeLabel: string;
+    unlikeLabel: string;
+  };
   /**
    * The right rail (mm:2940:13488). It is a sibling of the CARD LIST, not of
    * the section, because in the design the C.1 header rule runs the full
@@ -58,6 +67,8 @@ export function KudosFeed({
                 post={post}
                 copyLinkLabel={labels.copyLinkLabel}
                 copiedLabel={labels.copiedLabel}
+                anonymousLabel={labels.anonymousLabel}
+                heartLabels={{ like: labels.likeLabel, unlike: labels.unlikeLabel }}
               />
             ))
           )}

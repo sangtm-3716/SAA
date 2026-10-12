@@ -12,12 +12,13 @@ export interface FeedRow {
   title: string | null;
   message: string;
   is_highlight: boolean;
+  is_anonymous: boolean;
   created_at: string;
-  sender_id: string;
-  sender_name: string;
-  sender_code: string;
+  sender_id: string | null;
+  sender_name: string | null;
+  sender_code: string | null;
   sender_avatar: string | null;
-  sender_badge: string;
+  sender_badge: string | null;
   recipient_id: string;
   recipient_name: string;
   recipient_code: string;
@@ -31,7 +32,7 @@ export interface FeedRow {
 }
 
 export const FEED_COLUMNS =
-  "id,title,message,is_highlight,created_at,sender_id,sender_name,sender_code,sender_avatar,sender_badge,recipient_id,recipient_name,recipient_code,recipient_avatar,recipient_badge,recipient_department_slug,hearts,image_urls,hashtags,hashtag_slugs";
+  "id,title,message,is_highlight,is_anonymous,created_at,sender_id,sender_name,sender_code,sender_avatar,sender_badge,recipient_id,recipient_name,recipient_code,recipient_avatar,recipient_badge,recipient_department_slug,hearts,image_urls,hashtags,hashtag_slugs";
 
 /**
  * The column is CHECK-constrained in Postgres, but it arrives here as plain
@@ -45,24 +46,35 @@ export function toBadge(value: unknown): KudosBadge {
 }
 
 export function toPost(row: FeedRow): KudosPost {
+  // The view guarantees `is_anonymous` masks all five sender columns to
+  // NULL together, but the pairing is checked defensively here rather than
+  // trusted blindly — a NULL `sender_id`/`sender_name` with `is_anonymous`
+  // false would otherwise fall through to a half-populated Sunner.
+  const isAnonymous = row.is_anonymous || row.sender_id == null || row.sender_name == null;
+
   return {
     id: row.id,
     title: row.title,
     message: row.message,
     createdAt: row.created_at,
     isHighlight: row.is_highlight,
+    isAnonymous,
     hearts: row.hearts ?? 0,
+    // Filled by `withMyReactions`; the view has no notion of who is asking.
+    heartedByMe: false,
     imageUrls: row.image_urls ?? [],
     hashtags: row.hashtags ?? [],
     hashtagSlugs: row.hashtag_slugs ?? [],
     departmentSlug: row.recipient_department_slug,
-    sender: {
-      id: row.sender_id,
-      name: row.sender_name,
-      code: row.sender_code,
-      avatarUrl: row.sender_avatar,
-      badge: toBadge(row.sender_badge),
-    },
+    sender: isAnonymous
+      ? null
+      : {
+          id: row.sender_id as string,
+          name: row.sender_name as string,
+          code: row.sender_code ?? "",
+          avatarUrl: row.sender_avatar,
+          badge: toBadge(row.sender_badge),
+        },
     recipient: {
       id: row.recipient_id,
       name: row.recipient_name,

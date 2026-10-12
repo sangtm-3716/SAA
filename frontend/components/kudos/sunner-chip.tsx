@@ -10,15 +10,27 @@ import { BADGE_IMAGE, BADGE_LABEL, type KudosSunner } from "@/lib/kudos/types";
  * (`BADGE_IMAGE`) rather than rebuilt from the gradient/text layers under
  * component set `3007:17505` — same approach `kudos-block.tsx` uses for
  * raster marks.
+ *
+ * `sunner` is `null` for an anonymous sender (`post.isAnonymous`): the view
+ * masks every identity column, so there is nothing to show but the neutral
+ * avatar and the translated `anonymousLabel` in the name slot — no code, no
+ * dot separator, no badge pill.
  */
-export function SunnerChip({ sunner }: { sunner: KudosSunner }) {
+export function SunnerChip({
+  sunner,
+  anonymousLabel,
+}: {
+  sunner: KudosSunner | null;
+  anonymousLabel: string;
+}) {
   return (
     // mm:…;256:4830 (C.3.1 / C.3.3 — Thông tin người gửi/nhận)
     <div className="flex w-full max-w-[235px] flex-1 flex-col items-center justify-center gap-[13px]">
       {/* mm:…;256:4734 (MM_MEDIA_Avatar) */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- remote avatar, no responsive variants */}
       <img
-        src={sunner.avatarUrl ?? "/kudos/avatar-sunner.png"}
-        alt={sunner.name}
+        src={sunner?.avatarUrl ?? "/kudos/avatar-sunner.png"}
+        alt={sunner?.name ?? anonymousLabel}
         width={64}
         height={64}
         className="size-16 shrink-0 rounded-full border-[1.869px] border-white object-cover"
@@ -27,19 +39,22 @@ export function SunnerChip({ sunner }: { sunner: KudosSunner }) {
       <div className="flex w-full flex-col items-center gap-0.5">
         {/* mm:…;256:4735 — 16px/24px, weight 700, .15px, #00101A */}
         <p className="w-full truncate text-center text-base leading-6 font-bold tracking-[0.15px] text-[#00101A]">
-          {sunner.name}
+          {sunner?.name ?? anonymousLabel}
         </p>
-        {/* mm:…;256:4741 (Huy hiệu + Sao) — visual order is code, dot, badge */}
-        <div className="flex items-center justify-center gap-2.5">
-          {/* mm:…;256:4751 — 14px/20px, .1px, #999 */}
-          <span className="text-sm leading-5 font-bold tracking-[0.1px] text-[#999999]">
-            {sunner.code}
-          </span>
-          {/* mm:…;256:4754 (Ellipse 70) */}
-          <span aria-hidden className="size-1 shrink-0 rounded-full bg-[#999999] opacity-40" />
-          {/* mm:…;3106:17694 (MM_MEDIA_New/Rising/Legend Hero) */}
-          <img src={BADGE_IMAGE[sunner.badge]} alt={BADGE_LABEL[sunner.badge]} className="h-5 w-auto" />
-        </div>
+        {sunner ? (
+          /* mm:…;256:4741 (Huy hiệu + Sao) — visual order is code, dot, badge */
+          <div className="flex items-center justify-center gap-2.5">
+            {/* mm:…;256:4751 — 14px/20px, .1px, #999 */}
+            <span className="text-sm leading-5 font-bold tracking-[0.1px] text-[#999999]">
+              {sunner.code}
+            </span>
+            {/* mm:…;256:4754 (Ellipse 70) */}
+            <span aria-hidden className="size-1 shrink-0 rounded-full bg-[#999999] opacity-40" />
+            {/* mm:…;3106:17694 (MM_MEDIA_New/Rising/Legend Hero) */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- fixed small badge glyph, no responsive variants needed */}
+            <img src={BADGE_IMAGE[sunner.badge]} alt={BADGE_LABEL[sunner.badge]} className="h-5 w-auto" />
+          </div>
+        ) : null}
       </div>
     </div>
   );

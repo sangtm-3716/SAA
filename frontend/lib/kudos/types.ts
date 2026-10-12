@@ -36,8 +36,15 @@ export interface KudosSunner {
 /** One card in the feed (mm:3127:21871) or the carousel (mm:2940:13461). */
 export interface KudosPost {
   id: string;
-  sender: KudosSunner;
+  /**
+   * `null` means this Kudo was sent anonymously (`is_anonymous`) — the view
+   * masks all five sender columns in that case, so there is no identity to
+   * show. Render the anonymous placeholder rather than inventing a sentinel
+   * Sunner; the label is a translated string, not hardcoded data.
+   */
+  sender: KudosSunner | null;
   recipient: KudosSunner;
+  isAnonymous: boolean;
   /** mm:I3127:21871;2234:33039 — the all-caps line, e.g. "IDOL GIỚI TRẺ". */
   title: string | null;
   message: string;
@@ -51,6 +58,14 @@ export interface KudosPost {
   hashtagSlugs: string[];
   /** mm:I3127:21871;256:5174 — `count(*)` over kudos_reactions, never denormalised. */
   hearts: number;
+  /**
+   * Whether the CURRENT Sunner is one of those hearts. The feed view is one
+   * shape for everybody and cannot know, so `toPost` defaults this to `false`
+   * and `lib/kudos/reactions.ts#withMyReactions` fills it in with a second,
+   * screen-scoped read. A section that forgets to call it renders every heart
+   * un-pressed — wrong, but never broken.
+   */
+  heartedByMe: boolean;
   isHighlight: boolean;
   /**
    * Recipient's department slug, so the "Phòng ban" dropdown

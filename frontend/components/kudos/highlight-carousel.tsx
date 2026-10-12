@@ -25,6 +25,10 @@ export interface HighlightCarouselLabels {
   allLabel: string; // the "clear filter" row shown at the top of each dropdown
   detailLabel: string; // mm:…;186:1439 — "Xem chi tiết"
   copyLinkLabel: string; // mm:…;186:1439 — "Copy Link"
+  anonymousLabel: string; // mm:…;256:4735 fallback name for a masked anonymous sender
+  /** mm:…;256:5175 — accessible names for the heart's two states. */
+  likeLabel: string;
+  unlikeLabel: string;
 }
 
 export function HighlightCarousel({
@@ -141,6 +145,8 @@ export function HighlightCarousel({
                     post={post}
                     copyLinkLabel={labels.copyLinkLabel}
                     detailLabel={labels.detailLabel}
+                    anonymousLabel={labels.anonymousLabel}
+                    heartLabels={{ like: labels.likeLabel, unlike: labels.unlikeLabel }}
                     className={peek ? "hidden shrink-0 lg:flex" : "shrink-0"}
                   />
                 ),

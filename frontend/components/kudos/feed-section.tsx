@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { getKudosFeed } from "@/lib/kudos/queries";
+import { withMyReactions } from "@/lib/kudos/reactions";
 import { getBoardStats, getGiftClaims } from "@/lib/kudos/rail-queries";
 import { KudosFeed } from "./kudos-feed";
 import { BoardStatsRail } from "./board-stats-rail";
@@ -25,6 +26,9 @@ export async function FeedSection({
     heading: string;
     copyLinkLabel: string;
     copiedLabel: string;
+    anonymousLabel: string;
+    likeLabel: string;
+    unlikeLabel: string;
   };
   railLabels: {
     received: string;
@@ -40,7 +44,9 @@ export async function FeedSection({
   await connection();
 
   const [posts, stats, giftClaims] = await Promise.all([
-    getKudosFeed({}, 8),
+    // `withMyReactions` is chained rather than run in parallel: it needs the
+    // post ids to scope its lookup, so it cannot start until the feed lands.
+    getKudosFeed({}, 8).then(withMyReactions),
     getBoardStats(),
     getGiftClaims(),
   ]);

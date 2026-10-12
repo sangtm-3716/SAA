@@ -10,6 +10,7 @@ import { KudosHero } from "@/components/kudos/kudos-hero";
 import { HighlightSection } from "@/components/kudos/highlight-section";
 import { SpotlightSection } from "@/components/kudos/spotlight-section";
 import { FeedSection } from "@/components/kudos/feed-section";
+import { ScrollToHash } from "@/components/kudos/scroll-to-hash";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("kudos");
@@ -43,6 +44,11 @@ export default async function KudosPage({
       data-testid="kudos-page"
       className={`${montserrat.className} relative flex min-h-screen flex-col overflow-x-hidden bg-[#00101A]`}
     >
+      {/* Scrolls to `#<postId>` once that card has streamed in — the
+          compose redirect and the Copy Link button both produce such URLs,
+          and the browser cannot resolve them against a suspended section. */}
+      <ScrollToHash />
+
       {/* mm:2940:13432 (Keyvisual + Cover) */}
       <KudosBackground />
 
@@ -77,6 +83,9 @@ export default async function KudosPage({
               allLabel: t("filterAll"),
               detailLabel: t("detail"),
               copyLinkLabel: t("copyLink"),
+              anonymousLabel: t("anonymousSender"),
+              likeLabel: t("likeKudo"),
+              unlikeLabel: t("unlikeKudo"),
             }}
           />
         </Suspense>
@@ -100,6 +109,9 @@ export default async function KudosPage({
               heading: t("allKudosHeading"),
               copyLinkLabel: t("copyLink"),
               copiedLabel: t("copied"),
+              anonymousLabel: t("anonymousSender"),
+              likeLabel: t("likeKudo"),
+              unlikeLabel: t("unlikeKudo"),
             }}
             emptyLabel={t("emptyFeed")}
             railLabels={{

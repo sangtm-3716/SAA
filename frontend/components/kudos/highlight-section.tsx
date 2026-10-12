@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { getFilterOptions, getHighlightPosts } from "@/lib/kudos/queries";
+import { withMyReactions } from "@/lib/kudos/reactions";
 import type { KudosFilters } from "@/lib/kudos/types";
 import { HighlightCarousel } from "./highlight-carousel";
 
@@ -31,6 +32,9 @@ export async function HighlightSection({
     allLabel: string;
     detailLabel: string;
     copyLinkLabel: string;
+    anonymousLabel: string;
+    likeLabel: string;
+    unlikeLabel: string;
   };
 }) {
   await connection();
@@ -38,7 +42,7 @@ export async function HighlightSection({
   const { hashtag, department } = await filters;
 
   const [posts, options] = await Promise.all([
-    getHighlightPosts({ hashtag, department }),
+    getHighlightPosts({ hashtag, department }).then(withMyReactions),
     getFilterOptions(),
   ]);
 
