@@ -1,0 +1,33 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!--
+  mm:I525:11713;362:6128;186:1903;186:1709 ("IC", component 178:967 —
+  "GB-NIR - Northern Ireland") on screen hUyaaugye2.
+
+  Hand-authored rather than exported: this node holds no MM_MEDIA_ asset
+  (get_media_files reports none for the frame) and get_figma_image returns
+  HTTP 500 for it, the same export failure the login hero key visual hit.
+  Geometry mirrors public/login/vn-flag.svg exactly — a 20x15 flag placed at
+  (2,5) inside a 24x24 box — so the two sit identically in the 24px slot.
+
+  The diagonals are drawn centred rather than counterchanged (the real Union
+  Flag offsets each saltire arm against the centre line). At the 24px size
+  this icon is ever rendered, that distinction is sub-pixel.
+-->
+<g clip-path="url(#clip0_gb_flag)">
+<rect x="2" y="5" width="20" height="15" fill="#2E42A5"/>
+<g clip-path="url(#clip1_gb_flag)">
+<path d="M2 5L22 20M22 5L2 20" stroke="#F7FCFF" stroke-width="3.5"/>
+<path d="M2 5L22 20M22 5L2 20" stroke="#F50100" stroke-width="1.6"/>
+</g>
+<path d="M12 5V20M2 12.5H22" stroke="#F7FCFF" stroke-width="5"/>
+<path d="M12 5V20M2 12.5H22" stroke="#F50100" stroke-width="3"/>
+</g>
+<defs>
+<clipPath id="clip0_gb_flag">
+<rect x="2" y="5" width="20" height="15" fill="white"/>
+</clipPath>
+<clipPath id="clip1_gb_flag">
+<rect x="2" y="5" width="20" height="15" fill="white"/>
+</clipPath>
+</defs>
+</svg>
